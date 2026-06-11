@@ -8,8 +8,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 const ANTHROPIC_API = 'https://api.anthropic.com/v1/messages';
-const MODEL = 'claude-sonnet-4-20250514';
-
+const MODEL = 'claude-sonnet-4-5';
 // Proxy endpoint — AI comment per question
 app.post('/api/comment', async (req, res) => {
   const { sphere, question, answer } = req.body;
