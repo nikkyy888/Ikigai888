@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Икигай — найди смысл жизни</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600&family=Inter:wght@300;400;500;600&display=swap');
+  :root {
+    --ink:#1a1a2e;--love:#e05c5c;--skill:#4a90a4;--world:#6aab7a;--pay:#c49a3c;--ikigai:#9b6fa8;--paper:#faf8f4;--line:rgba(26,26,46,0.1);
+    --serif:'Noto Serif JP',serif;--sans:'Inter',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);min-height:100vh;display:flex;flex-direction:column;align-items:center;}
+  header{width:100%;padding:2.5rem 2rem 2rem;text-align:center;border-bottom:1px solid var(--line);background:var(--paper);position:sticky;top:0;z-index:10;}
+  .kanji{font-family:var(--serif);font-size:2.8rem;font-weight:300;color:var(--ikigai);letter-spacing:0.15em;line-height:1;}
+  .subtitle{font-size:0.78rem;letter-spacing:0.25em;text-transform:uppercase;color:rgba(26,26,46,0.45);margin-top:0.5rem;font-weight:500;}
+  .progress-bar{width:100%;max-width:640px;margin:1.2rem auto 0;height:3px;background:var(--line);border-radius:2px;overflow:hidden;}
+  .progress-fill{height:100%;background:var(--ikigai);border-radius:2px;transition:width 0.5s ease;}
+  main{width:100%;max-width:680px;padding:2.5rem 1.5rem 4rem;flex:1;}
+  #screen-intro{text-align:center;padding:3rem 0;}
+  .intro-diagram{width:220px;height:220px;margin:0 auto 2.5rem;position:relative;}
+  .circle{position:absolute;width:120px;height:120px;border-radius:50%;opacity:0.25;}
+  .c-love{background:var(--love);top:0;left:50px;} .c-skill{background:var(--skill);top:50px;left:100px;}
+  .c-world{background:var(--world);top:100px;left:50px;} .c-pay{background:var(--pay);top:50px;left:0;}
+  .center-dot{position:absolute;width:36px;height:36px;border-radius:50%;background:var(--ikigai);top:50%;left:50%;transform:translate(-50%,-50%);box-shadow:0 0 20px rgba(155,111,168,0.5);}
+  .intro-title{font-family:var(--serif);font-size:1.75rem;font-weight:400;line-height:1.4;margin-bottom:1rem;}
+  .intro-text{font-size:0.95rem;color:rgba(26,26,46,0.65);line-height:1.7;margin-bottom:2.5rem;}
+  #screen-questions{display:none;}
+  .sphere-badge{display:inline-flex;align-items:center;font-size:0.72rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;padding:0.35rem 0.9rem;border-radius:100px;margin-bottom:1.8rem;color:white;}
+  .sphere-badge.love{background:var(--love);} .sphere-badge.skill{background:var(--skill);}
+  .sphere-badge.world{background:var(--world);} .sphere-badge.pay{background:var(--pay);}
+  .question-text{font-family:var(--serif);font-size:1.35rem;font-weight:400;line-height:1.55;margin-bottom:0.65rem;}
+  .question-hint{font-size:0.85rem;color:rgba(26,26,46,0.5);margin-bottom:1.8rem;line-height:1.6;}
+  textarea{width:100%;min-height:130px;padding:1rem 1.1rem;border:1.5px solid var(--line);border-radius:10px;font-family:var(--sans);font-size:0.95rem;line-height:1.6;color:var(--ink);background:white;resize:vertical;outline:none;transition:border-color 0.2s;}
+  textarea:focus{border-color:var(--ikigai);}
+  .q-meta{display:flex;justify-content:space-between;margin-top:0.55rem;font-size:0.75rem;color:rgba(26,26,46,0.4);}
+  .ai-comment{background:white;border:1.5px solid var(--line);border-radius:14px;border-bottom-left-radius:4px;padding:1rem 1.2rem;font-size:0.87rem;line-height:1.65;color:rgba(26,26,46,0.75);margin-top:1rem;display:none;}
+  #screen-analysis{display:none;text-align:center;padding:4rem 0;}
+  .spinner{width:48px;height:48px;border:3px solid var(--line);border-top-color:var(--ikigai);border-radius:50%;animation:spin 0.9s linear infinite;margin:0 auto 2rem;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .analysis-label{font-family:var(--serif);font-size:1.1rem;color:rgba(26,26,46,0.6);margin-bottom:0.5rem;}
+  .analysis-step{font-size:0.8rem;color:rgba(26,26,46,0.35);letter-spacing:0.08em;}
+  #screen-result{display:none;}
+  .result-hero{text-align:center;padding:2.5rem 0 2rem;border-bottom:1px solid var(--line);margin-bottom:2rem;}
+  .result-ikigai-word{font-family:var(--serif);font-size:1rem;letter-spacing:0.3em;color:var(--ikigai);text-transform:uppercase;margin-bottom:0.8rem;}
+  .result-statement{font-family:var(--serif);font-size:1.5rem;font-weight:400;line-height:1.55;max-width:520px;margin:0 auto;}
+  .section-label{font-size:0.7rem;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;margin-bottom:1rem;display:flex;align-items:center;gap:0.6rem;}
+  .section-label::after{content:'';flex:1;height:1px;background:var(--line);}
+  .result-block{margin-bottom:2rem;}
+  .quadrant-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+  .quad-card{padding:1.1rem 1.2rem;border-radius:12px;background:white;border:1.5px solid var(--line);}
+  .quad-card .quad-label{font-size:0.68rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:0.5rem;}
+  .quad-card.love .quad-label{color:var(--love);} .quad-card.skill .quad-label{color:var(--skill);}
+  .quad-card.world .quad-label{color:var(--world);} .quad-card.pay .quad-label{color:var(--pay);}
+  .quad-card p{font-size:0.87rem;line-height:1.6;color:rgba(26,26,46,0.75);}
+  .hours-block{background:linear-gradient(135deg,rgba(224,92,92,0.07),rgba(224,92,92,0.02));border:1.5px solid rgba(224,92,92,0.2);border-radius:14px;padding:1.5rem 1.6rem;margin-bottom:1.5rem;}
+  .hours-label{font-size:0.7rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--love);margin-bottom:0.9rem;}
+  .hours-block ol,.next-steps ol{padding-left:1.3rem;font-size:0.93rem;line-height:1.9;color:rgba(26,26,46,0.8);}
+  .days-list{display:flex;flex-direction:column;gap:0.65rem;}
+  .day-row{display:flex;gap:1rem;align-items:flex-start;padding:0.9rem 1.1rem;background:white;border:1.5px solid var(--line);border-radius:11px;}
+  .day-lbl{flex-shrink:0;min-width:72px;font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--ikigai);padding-top:0.15rem;}
+  .day-act{font-size:0.89rem;line-height:1.65;color:rgba(26,26,46,0.8);}
+  .restart-btn{display:block;text-align:center;font-size:0.78rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(26,26,46,0.4);cursor:pointer;margin-top:1.5rem;padding:0.8rem;background:none;border:none;width:100%;font-family:var(--sans);transition:color 0.2s;}
+  .restart-btn:hover{color:var(--ink);}
+  .btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.9rem 2.2rem;border-radius:100px;border:none;cursor:pointer;font-family:var(--sans);font-size:0.9rem;font-weight:500;transition:all 0.2s;}
+  .btn-primary{background:var(--ink);color:white;}
+  .btn-primary:hover{background:#2d2d4a;transform:translateY(-1px);}
+  .btn-primary:disabled{opacity:0.4;cursor:not-allowed;transform:none;}
+  .btn-ghost{background:transparent;color:rgba(26,26,46,0.5);padding-left:0;}
+  .btn-ghost:hover{color:var(--ink);}
+  .nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:2rem;}
+  .error-box{background:#fff0f0;border:1px solid #ffc0c0;border-radius:10px;padding:1rem 1.2rem;font-size:0.87rem;color:#c0392b;margin-top:1rem;display:none;}
+</style>
+</head>
+<body>
+<header>
+  <div class="kanji">生き甲斐</div>
+  <div class="subtitle">Икигай · Поиск смысла жизни</div>
+  <div class="progress-bar"><div class="progress-fill" id="progress" style="width:0%"></div></div>
+</header>
+<main>
+  <div id="screen-intro">
+    <div class="intro-diagram">
+      <div class="circle c-love"></div><div class="circle c-skill"></div>
+      <div class="circle c-world"></div><div class="circle c-pay"></div>
+      <div class="center-dot"></div>
+    </div>
+    <h1 class="intro-title">Найди своё Икигай</h1>
+    <p class="intro-text">Это мягкое интервью из 8 вопросов. ИИ выслушает тебя и поможет увидеть, где пересекаются твоя страсть, призвание, миссия и профессия.<br><br>Отвечай честно — здесь нет правильных или неправильных ответов.</p>
+    <button class="btn btn-primary" onclick="startJourney()">Начать путешествие →</button>
+  </div>
+  <div id="screen-questions">
+    <div id="sphere-badge" class="sphere-badge love"></div>
+    <h2 class="question-text" id="q-text"></h2>
+    <p class="question-hint" id="q-hint"></p>
+    <textarea id="q-answer" placeholder="Напиши здесь — можно несколько строк..."></textarea>
+    <div class="q-meta"><span id="q-counter">Вопрос 1 из 8</span><span id="char-count">0 символов</span></div>
+    <div class="ai-comment" id="ai-comment"></div>
+    <div class="error-box" id="error-box"></div>
+    <div class="nav-row">
+      <button class="btn btn-ghost" id="btn-back" onclick="prevQ()">← Назад</button>
+      <button class="btn btn-primary" id="btn-next" onclick="nextQ()">Далее →</button>
+    </div>
+  </div>
+  <div id="screen-analysis">
+    <div class="spinner"></div>
+    <p class="analysis-label">Анализирую твои ответы…</p>
+    <p class="analysis-step" id="analysis-step">Изучаю паттерны…</p>
+  </div>
+  <div id="screen-result"></div>
+</main>
+
+<script>
+const QUESTIONS=[
+  {sphere:'love',label:'Что ты любишь',text:'Что приносит тебе искреннюю радость или погружает тебя в поток?',hint:'За каким занятием ты теряешь счёт времени? Что делаешь даже тогда, когда устал?'},
+  {sphere:'love',label:'Что ты любишь',text:'Каким был ты в детстве или юности — чем горел, о чём мечтал?',hint:'Иногда первые увлечения указывают на самое глубокое. Что из этого осталось?'},
+  {sphere:'skill',label:'В чём ты хорош',text:'За что тебя ценят и хвалят — коллеги, друзья, близкие?',hint:'Что даётся тебе легче, чем большинству? Какие задачи решаешь «между делом», пока другие тратят часы?'},
+  {sphere:'skill',label:'В чём ты хорош',text:'Какой опыт или знания ты накопил за жизнь, которыми гордишься?',hint:'Профессиональные навыки, жизненный опыт, умение слушать — всё считается.'},
+  {sphere:'world',label:'Что нужно миру',text:'Какая боль или проблема в мире вокруг тебя задевает тебя сильнее всего?',hint:'Что вызывает желание действовать? Что несправедливо или чего не хватает людям?'},
+  {sphere:'world',label:'Что нужно миру',text:'Как ты хотел бы изменить жизнь людей вокруг — пусть даже небольшую их часть?',hint:'Не обязательно «спасти мир». Может быть, это твоё окружение, город, сообщество.'},
+  {sphere:'pay',label:'За что платят',text:'Какими навыками или знаниями ты уже зарабатываешь или мог бы зарабатывать?',hint:'Что люди готовы покупать или за что уже платят тебе?'},
+  {sphere:'pay',label:'За что платят',text:'Если бы деньги не были проблемой, чему бы ты учился или чем занимался?',hint:'Страсть уже есть — осталось найти путь к монетизации. Что это могло бы быть?'}
+];
+const SPHERE_NAMES={love:'Что ты любишь',skill:'В чём ты хорош',world:'Что нужно миру',pay:'За что платят'};
+const STEPS=['Изучаю паттерны любви и страсти…','Нахожу скрытые таланты…','Ищу пересечения с потребностями мира…','Определяю точки монетизации…','Собираю картину воедино…','Формулирую твой Икигай…'];
+
+let current=0,answers=[],aiComments=[];
+
+function startJourney(){
+  document.getElementById('screen-intro').style.display='none';
+  document.getElementById('screen-questions').style.display='block';
+  renderQuestion();
+}
+
+function renderQuestion(){
+  const q=QUESTIONS[current];
+  const badge=document.getElementById('sphere-badge');
+  badge.textContent=SPHERE_NAMES[q.sphere]; badge.className=`sphere-badge ${q.sphere}`;
+  document.getElementById('q-text').textContent=q.text;
+  document.getElementById('q-hint').textContent=q.hint;
+  document.getElementById('q-counter').textContent=`Вопрос ${current+1} из ${QUESTIONS.length}`;
+  document.getElementById('q-answer').value=answers[current]||'';
+  document.getElementById('char-count').textContent=(answers[current]||'').length+' символов';
+  document.getElementById('btn-back').style.visibility=current===0?'hidden':'visible';
+  document.getElementById('btn-next').textContent=current===QUESTIONS.length-1?'Завершить ✦':'Далее →';
+  const c=document.getElementById('ai-comment');
+  if(aiComments[current]){c.style.display='block';c.innerHTML='<strong style="color:var(--ikigai)">✦ Заметка ИИ:</strong> '+aiComments[current];}
+  else c.style.display='none';
+  document.getElementById('error-box').style.display='none';
+  document.getElementById('progress').style.width=(current/QUESTIONS.length*100)+'%';
+}
+
+document.getElementById('q-answer').addEventListener('input',function(){
+  document.getElementById('char-count').textContent=this.value.length+' символов';
+});
+
+function prevQ(){answers[current]=document.getElementById('q-answer').value;if(current>0){current--;renderQuestion();}}
+
+async function nextQ(){
+  const val=document.getElementById('q-answer').value.trim();
+  if(val.length<10){showError('Напиши чуть подробнее — хотя бы несколько слов.');return;}
+  answers[current]=val;
+  const btn=document.getElementById('btn-next');
+  btn.disabled=true;btn.textContent='…';
+  try{
+    const res=await fetch('/api/comment',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({sphere:SPHERE_NAMES[QUESTIONS[current].sphere],question:QUESTIONS[current].text,answer:val})});
+    const d=await res.json();
+    if(d.text) aiComments[current]=d.text;
+  }catch(e){}
+  btn.disabled=false;
+  if(current<QUESTIONS.length-1){current++;renderQuestion();}
+  else await showAnalysis();
+}
+
+async function showAnalysis(){
+  document.getElementById('screen-questions').style.display='none';
+  document.getElementById('screen-analysis').style.display='block';
+  document.getElementById('progress').style.width='90%';
+  const stepEl=document.getElementById('analysis-step');
+  let si=0; const iv=setInterval(()=>{if(si<STEPS.length)stepEl.textContent=STEPS[si++];},1200);
+  try{
+    const qa=QUESTIONS.map((q,i)=>`[${SPHERE_NAMES[q.sphere]}] ${q.text}\nОтвет: ${answers[i]||'—'}`).join('\n\n');
+    const res=await fetch('/api/ikigai',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({qa})});
+    const r=await res.json();
+    if(r.error) throw new Error(r.error);
+    clearInterval(iv);
+    document.getElementById('progress').style.width='100%';
+    showResult(r);
+  }catch(e){
+    clearInterval(iv);
+    document.getElementById('screen-analysis').style.display='none';
+    document.getElementById('screen-questions').style.display='block';
+    current=QUESTIONS.length-1;renderQuestion();
+    showError('Ошибка: '+e.message);
+  }
+}
+
+function showResult(r){
+  document.getElementById('screen-analysis').style.display='none';
+  const el=document.getElementById('screen-result');
+  el.style.display='block';
+  el.innerHTML=`
+    <div class="result-hero">
+      <div class="result-ikigai-word">Твой Икигай</div>
+      <div class="result-statement">${r.statement}</div>
+    </div>
+    <div class="result-block">
+      <div class="section-label">Четыре сферы</div>
+      <div class="quadrant-grid">
+        <div class="quad-card love"><div class="quad-label">❤ Что ты любишь</div><p>${r.love_insight}</p></div>
+        <div class="quad-card skill"><div class="quad-label">◈ В чём ты хорош</div><p>${r.skill_insight}</p></div>
+        <div class="quad-card world"><div class="quad-label">✦ Что нужно миру</div><p>${r.world_insight}</p></div>
+        <div class="quad-card pay"><div class="quad-label">◎ За что платят</div><p>${r.pay_insight}</p></div>
+      </div>
+    </div>
+    <div class="result-block">
+      <div class="section-label">Пересечения</div>
+      <div class="quadrant-grid">
+        <div class="quad-card" style="border-color:rgba(224,92,92,0.3)"><div class="quad-label" style="color:var(--love)">Страсть</div><p style="font-weight:600;color:var(--ink)">${r.passion}</p><p style="font-size:0.72rem;margin-top:0.3rem;color:rgba(26,26,46,0.45)">Люблю + Хорош</p></div>
+        <div class="quad-card" style="border-color:rgba(74,144,164,0.3)"><div class="quad-label" style="color:var(--skill)">Призвание</div><p style="font-weight:600;color:var(--ink)">${r.mission}</p><p style="font-size:0.72rem;margin-top:0.3rem;color:rgba(26,26,46,0.45)">Люблю + Миру</p></div>
+        <div class="quad-card" style="border-color:rgba(106,171,122,0.3)"><div class="quad-label" style="color:var(--world)">Миссия</div><p style="font-weight:600;color:var(--ink)">${r.vocation}</p><p style="font-size:0.72rem;margin-top:0.3rem;color:rgba(26,26,46,0.45)">Миру + Платят</p></div>
+        <div class="quad-card" style="border-color:rgba(196,154,60,0.3)"><div class="quad-label" style="color:var(--pay)">Профессия</div><p style="font-weight:600;color:var(--ink)">${r.profession}</p><p style="font-size:0.72rem;margin-top:0.3rem;color:rgba(26,26,46,0.45)">Платят + Хорош</p></div>
+      </div>
+    </div>
+    <div class="result-block">
+      <div class="section-label">Первые 24 часа</div>
+      <div class="hours-block">
+        <div class="hours-label">⚡ Сделай сегодня</div>
+        <ol>${r.hours24.map(s=>`<li>${s}</li>`).join('')}</ol>
+      </div>
+    </div>
+    <div class="result-block">
+      <div class="section-label">План на 7 дней</div>
+      <div class="days-list">
+        ${r.days7.map(d=>`<div class="day-row"><div class="day-lbl">${d.day}</div><div class="day-act">${d.action}</div></div>`).join('')}
+      </div>
+    </div>
+    <div class="result-block">
+      <div class="section-label">Слово наставника</div>
+      <div style="font-family:var(--serif);font-style:italic;font-size:0.97rem;line-height:1.8;color:rgba(26,26,46,0.65)">${r.closing}</div>
+    </div>
+    <button class="restart-btn" onclick="restart()">Пройти заново ↺</button>`;
+}
+
+function restart(){
+  current=0;answers=[];aiComments=[];
+  document.getElementById('screen-result').style.display='none';
+  document.getElementById('screen-intro').style.display='block';
+  document.getElementById('progress').style.width='0%';
+}
+function showError(msg){const e=document.getElementById('error-box');e.textContent=msg;e.style.display='block';}
+</script>
+</body>
+</html>
