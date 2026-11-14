@@ -25,7 +25,11 @@
   .c-world{background:var(--world);top:100px;left:50px;} .c-pay{background:var(--pay);top:50px;left:0;}
   .center-dot{position:absolute;width:36px;height:36px;border-radius:50%;background:var(--ikigai);top:50%;left:50%;transform:translate(-50%,-50%);box-shadow:0 0 20px rgba(155,111,168,0.5);}
   .intro-title{font-family:var(--serif);font-size:1.75rem;font-weight:400;line-height:1.4;margin-bottom:1rem;}
-  .intro-text{font-size:0.95rem;color:rgba(26,26,46,0.65);line-height:1.7;margin-bottom:2.5rem;}
+  .intro-text{font-size:0.95rem;color:rgba(26,26,46,0.65);line-height:1.7;margin-bottom:2rem;}
+  .gender-label{font-size:0.72rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:rgba(26,26,46,0.45);margin-bottom:1rem;}
+  .gender-row{display:flex;gap:0.8rem;justify-content:center;flex-wrap:wrap;}
+  .btn-outline{background:white;color:var(--ink);border:1.5px solid var(--ink);}
+  .btn-outline:hover{background:var(--ink);color:white;transform:translateY(-1px);}
   #screen-questions{display:none;}
   .sphere-badge{display:inline-flex;align-items:center;font-size:0.72rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;padding:0.35rem 0.9rem;border-radius:100px;margin-bottom:1.8rem;color:white;}
   .sphere-badge.love{background:var(--love);} .sphere-badge.skill{background:var(--skill);}
@@ -56,13 +60,14 @@
   .quad-card p{font-size:0.87rem;line-height:1.6;color:rgba(26,26,46,0.75);}
   .hours-block{background:linear-gradient(135deg,rgba(224,92,92,0.07),rgba(224,92,92,0.02));border:1.5px solid rgba(224,92,92,0.2);border-radius:14px;padding:1.5rem 1.6rem;margin-bottom:1.5rem;}
   .hours-label{font-size:0.7rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--love);margin-bottom:0.9rem;}
-  .hours-block ol,.next-steps ol{padding-left:1.3rem;font-size:0.93rem;line-height:1.9;color:rgba(26,26,46,0.8);}
+  .hours-block ol{padding-left:1.3rem;font-size:0.93rem;line-height:1.9;color:rgba(26,26,46,0.8);}
   .days-list{display:flex;flex-direction:column;gap:0.65rem;}
   .day-row{display:flex;gap:1rem;align-items:flex-start;padding:0.9rem 1.1rem;background:white;border:1.5px solid var(--line);border-radius:11px;}
   .day-lbl{flex-shrink:0;min-width:72px;font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--ikigai);padding-top:0.15rem;}
   .day-act{font-size:0.89rem;line-height:1.65;color:rgba(26,26,46,0.8);}
   .restart-btn{display:block;text-align:center;font-size:0.78rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(26,26,46,0.4);cursor:pointer;margin-top:1.5rem;padding:0.8rem;background:none;border:none;width:100%;font-family:var(--sans);transition:color 0.2s;}
   .restart-btn:hover{color:var(--ink);}
+  .support-btn{color:var(--ikigai);font-weight:600;margin-top:2rem;}
   .btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.9rem 2.2rem;border-radius:100px;border:none;cursor:pointer;font-family:var(--sans);font-size:0.9rem;font-weight:500;transition:all 0.2s;}
   .btn-primary{background:var(--ink);color:white;}
   .btn-primary:hover{background:#2d2d4a;transform:translateY(-1px);}
@@ -71,6 +76,19 @@
   .btn-ghost:hover{color:var(--ink);}
   .nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:2rem;}
   .error-box{background:#fff0f0;border:1px solid #ffc0c0;border-radius:10px;padding:1rem 1.2rem;font-size:0.87rem;color:#c0392b;margin-top:1rem;display:none;}
+
+  /* ── DONATE MODAL ── */
+  .donate-overlay{position:fixed;inset:0;background:rgba(26,26,46,0.55);display:none;align-items:center;justify-content:center;padding:1rem;z-index:100;backdrop-filter:blur(3px);}
+  .donate-overlay.open{display:flex;}
+  .donate-box{position:relative;background:var(--paper);border-radius:20px;padding:2.2rem 1.6rem 1.4rem;max-width:420px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.25);animation:donateIn .35s ease;}
+  @keyframes donateIn{from{opacity:0;transform:translateY(16px) scale(.97);}to{opacity:1;transform:none;}}
+  .donate-close{position:absolute;top:.5rem;right:.9rem;background:none;border:none;font-size:1.7rem;color:rgba(26,26,46,.4);cursor:pointer;line-height:1;}
+  .donate-icon{font-size:1.4rem;color:var(--ikigai);margin-bottom:.6rem;}
+  .donate-title{font-family:var(--serif);font-size:1.3rem;font-weight:400;margin-bottom:.7rem;line-height:1.4;}
+  .donate-text{font-size:.88rem;line-height:1.65;color:rgba(26,26,46,.65);margin-bottom:1.3rem;}
+  .donate-btn{display:inline-block;background:var(--ink);color:white;text-decoration:none;font-family:var(--sans);font-size:.95rem;font-weight:500;padding:.95rem 2.4rem;border-radius:100px;margin-bottom:.9rem;transition:all .2s;}
+  .donate-btn:hover{background:#2d2d4a;transform:translateY(-1px);}
+  .donate-skip{display:block;margin:0 auto;background:none;border:none;font-family:var(--sans);font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(26,26,46,.4);cursor:pointer;padding:.5rem;}
 </style>
 </head>
 <body>
@@ -88,7 +106,11 @@
     </div>
     <h1 class="intro-title">Найди свой Икигай</h1>
     <p class="intro-text">Это мягкое интервью из 8 вопросов. Данная техника поможет увидеть где пересекаются твоя страсть, призвание, миссия и профессия.<br><br>Отвечай честно — здесь нет правильных или неправильных ответов.</p>
-    <button class="btn btn-primary" onclick="startJourney()">Начать путешествие →</button>
+    <p class="gender-label">Начать путешествие как:</p>
+    <div class="gender-row">
+      <button class="btn btn-primary" onclick="startJourney('f')">Я женщина →</button>
+      <button class="btn btn-outline" onclick="startJourney('m')">Я мужчина →</button>
+    </div>
   </div>
   <div id="screen-questions">
     <div id="sphere-badge" class="sphere-badge love"></div>
@@ -111,23 +133,58 @@
   <div id="screen-result"></div>
 </main>
 
+<!-- DONATE MODAL -->
+<div id="donate-modal" class="donate-overlay" onclick="if(event.target===this)closeDonate()">
+  <div class="donate-box">
+    <button class="donate-close" onclick="closeDonate()" aria-label="Закрыть">×</button>
+    <div class="donate-icon">✦</div>
+    <h3 class="donate-title">Если Икигай помог тебе</h3>
+    <p class="donate-text">Приложение бесплатное. Если хочешь поддержать проект, оставь любую сумму. Это очень ценно.</p>
+    <a id="donate-link" class="donate-btn" href="#" target="_blank" rel="noopener" onclick="closeDonate()">Поддержать ♥</a>
+    <button class="donate-skip" onclick="closeDonate()">Не сейчас</button>
+  </div>
+</div>
+
 <script>
+// ── НАСТРОЙКИ ──
+const DONATE_URL = 'https://app.lava.top/products/a552a352-1c49-4a0b-93d5-6762f378e9df/c799d64f-1615-453a-82be-37a06e05d148?currency=RUB';
+const DONATE_DELAY_MS = 6000; // через сколько мс после результата показать окно доната
+
+document.getElementById('donate-link').href = DONATE_URL;
+
+// Пол: 'f' — женщина, 'm' — мужчина
+let gender = 'f';
+
+// Склонение по полу. В тексте пишем {мужской|женский}, например: {хорош|хороша}
+function G(s){
+  return s.replace(/\{([^|}]*)\|([^}]*)\}/g, (m, a, b) => gender === 'f' ? b : a);
+}
+
+// Подсказка для ИИ, чтобы он обращался в нужном роде
+function NOTE(){
+  return gender === 'f'
+    ? 'Пользователь — женщина. Обращайся к ней в женском роде (например: ты смогла, ты хороша, ты выбрала).'
+    : 'Пользователь — мужчина. Обращайся к нему в мужском роде (например: ты смог, ты хорош, ты выбрал).';
+}
+
 const QUESTIONS=[
-  {sphere:'love',label:'Что ты любишь',text:'Что приносит тебе искреннюю радость или погружает тебя в поток?',hint:'За каким занятием ты теряешь счёт времени? Что делаешь даже тогда, когда устал?'},
-  {sphere:'love',label:'Что ты любишь',text:'Каким был ты в детстве или юности — чем горел, о чём мечтал?',hint:'Иногда первые увлечения указывают на самое глубокое. Что из этого осталось?'},
-  {sphere:'skill',label:'В чём ты хорош',text:'За что тебя ценят и хвалят — коллеги, друзья, близкие?',hint:'Что даётся тебе легче, чем большинству? Какие задачи решаешь «между делом», пока другие тратят часы?'},
-  {sphere:'skill',label:'В чём ты хорош',text:'Какой опыт или знания ты накопил за жизнь, которыми гордишься?',hint:'Профессиональные навыки, жизненный опыт, умение слушать — всё считается.'},
-  {sphere:'world',label:'Что нужно миру',text:'Какая боль или проблема в мире вокруг тебя задевает тебя сильнее всего?',hint:'Что вызывает желание действовать? Что несправедливо или чего не хватает людям?'},
-  {sphere:'world',label:'Что нужно миру',text:'Как ты хотел бы изменить жизнь людей вокруг — пусть даже небольшую их часть?',hint:'Не обязательно «спасти мир». Может быть, это твоё окружение, город, сообщество.'},
-  {sphere:'pay',label:'За что платят',text:'Какими навыками или знаниями ты уже зарабатываешь или мог бы зарабатывать?',hint:'Что люди готовы покупать или за что уже платят тебе?'},
-  {sphere:'pay',label:'За что платят',text:'Если бы деньги не были проблемой, чему бы ты учился или чем занимался?',hint:'Страсть уже есть — осталось найти путь к монетизации. Что это могло бы быть?'}
+  {sphere:'love',text:'Что приносит тебе искреннюю радость или погружает тебя в поток?',hint:'За каким занятием ты теряешь счёт времени? Что делаешь даже тогда, когда устал{|а}?'},
+  {sphere:'love',text:'{Каким был|Какой была} ты в детстве или юности — чем горел{|а}, о чём мечтал{|а}?',hint:'Иногда первые увлечения указывают на самое глубокое. Что из этого осталось?'},
+  {sphere:'skill',text:'За что тебя ценят и хвалят — коллеги, друзья, близкие?',hint:'Что даётся тебе легче, чем большинству? Какие задачи решаешь «между делом», пока другие тратят часы?'},
+  {sphere:'skill',text:'Какой опыт или знания ты накопил{|а} за жизнь, которыми гордишься?',hint:'Профессиональные навыки, жизненный опыт, умение слушать — всё считается.'},
+  {sphere:'world',text:'Какая боль или проблема в мире вокруг тебя задевает тебя сильнее всего?',hint:'Что вызывает желание действовать? Что несправедливо или чего не хватает людям?'},
+  {sphere:'world',text:'Как ты хотел{|а} бы изменить жизнь людей вокруг — пусть даже небольшую их часть?',hint:'Не обязательно «спасти мир». Может быть, это твоё окружение, город, сообщество.'},
+  {sphere:'pay',text:'Какими навыками или знаниями ты уже зарабатываешь или мог{|ла} бы зарабатывать?',hint:'Что люди готовы покупать или за что уже платят тебе?'},
+  {sphere:'pay',text:'Если бы деньги не были проблемой, чему бы ты {учился|училась} или чем {занимался|занималась}?',hint:'Страсть уже есть — осталось найти путь к монетизации. Что это могло бы быть?'}
 ];
-const SPHERE_NAMES={love:'Что ты любишь',skill:'В чём ты хорош',world:'Что нужно миру',pay:'За что платят'};
+const SPHERE_NAMES={love:'Что ты любишь',skill:'В чём ты {хорош|хороша}',world:'Что нужно миру',pay:'За что платят'};
 const STEPS=['Изучаю паттерны любви и страсти…','Нахожу скрытые таланты…','Ищу пересечения с потребностями мира…','Определяю точки монетизации…','Собираю картину воедино…','Формулирую твой Икигай…'];
 
 let current=0,answers=[],aiComments=[];
+let donateShown=false;
 
-function startJourney(){
+function startJourney(g){
+  gender = g;
   document.getElementById('screen-intro').style.display='none';
   document.getElementById('screen-questions').style.display='block';
   renderQuestion();
@@ -136,9 +193,9 @@ function startJourney(){
 function renderQuestion(){
   const q=QUESTIONS[current];
   const badge=document.getElementById('sphere-badge');
-  badge.textContent=SPHERE_NAMES[q.sphere]; badge.className=`sphere-badge ${q.sphere}`;
-  document.getElementById('q-text').textContent=q.text;
-  document.getElementById('q-hint').textContent=q.hint;
+  badge.textContent=G(SPHERE_NAMES[q.sphere]); badge.className=`sphere-badge ${q.sphere}`;
+  document.getElementById('q-text').textContent=G(q.text);
+  document.getElementById('q-hint').textContent=G(q.hint);
   document.getElementById('q-counter').textContent=`Вопрос ${current+1} из ${QUESTIONS.length}`;
   document.getElementById('q-answer').value=answers[current]||'';
   document.getElementById('char-count').textContent=(answers[current]||'').length+' символов';
@@ -164,8 +221,13 @@ async function nextQ(){
   const btn=document.getElementById('btn-next');
   btn.disabled=true;btn.textContent='…';
   try{
+    const q=QUESTIONS[current];
     const res=await fetch('/api/comment',{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({sphere:SPHERE_NAMES[QUESTIONS[current].sphere],question:QUESTIONS[current].text,answer:val})});
+      body:JSON.stringify({
+        sphere:G(SPHERE_NAMES[q.sphere]),
+        question:G(q.text),
+        answer:val+'\n['+NOTE()+']'
+      })});
     const d=await res.json();
     if(d.text) aiComments[current]=d.text;
   }catch(e){}
@@ -181,7 +243,7 @@ async function showAnalysis(){
   const stepEl=document.getElementById('analysis-step');
   let si=0; const iv=setInterval(()=>{if(si<STEPS.length)stepEl.textContent=STEPS[si++];},1200);
   try{
-    const qa=QUESTIONS.map((q,i)=>`[${SPHERE_NAMES[q.sphere]}] ${q.text}\nОтвет: ${answers[i]||'—'}`).join('\n\n');
+    const qa=NOTE()+'\n\n'+QUESTIONS.map((q,i)=>`[${G(SPHERE_NAMES[q.sphere])}] ${G(q.text)}\nОтвет: ${answers[i]||'—'}`).join('\n\n');
     const res=await fetch('/api/ikigai',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({qa})});
     const r=await res.json();
     if(r.error) throw new Error(r.error);
@@ -210,7 +272,7 @@ function showResult(r){
       <div class="section-label">Четыре сферы</div>
       <div class="quadrant-grid">
         <div class="quad-card love"><div class="quad-label">❤ Что ты любишь</div><p>${r.love_insight}</p></div>
-        <div class="quad-card skill"><div class="quad-label">◈ В чём ты хорош</div><p>${r.skill_insight}</p></div>
+        <div class="quad-card skill"><div class="quad-label">◈ ${G('В чём ты {хорош|хороша}')}</div><p>${r.skill_insight}</p></div>
         <div class="quad-card world"><div class="quad-label">✦ Что нужно миру</div><p>${r.world_insight}</p></div>
         <div class="quad-card pay"><div class="quad-label">◎ За что платят</div><p>${r.pay_insight}</p></div>
       </div>
@@ -218,10 +280,10 @@ function showResult(r){
     <div class="result-block">
       <div class="section-label">Пересечения</div>
       <div class="quadrant-grid">
-        <div class="quad-card" style="border-color:rgba(224,92,92,0.3)"><div class="quad-label" style="color:var(--love)">Страсть</div><p style="font-weight:600;color:var(--ink)">${r.passion}</p><p style="font-size:0.72rem;margin-top:0.3rem;color:rgba(26,26,46,0.45)">Люблю + Хорош</p></div>
+        <div class="quad-card" style="border-color:rgba(224,92,92,0.3)"><div class="quad-label" style="color:var(--love)">Страсть</div><p style="font-weight:600;color:var(--ink)">${r.passion}</p><p style="font-size:0.72rem;margin-top:0.3rem;color:rgba(26,26,46,0.45)">${G('Люблю + {Хорош|Хороша}')}</p></div>
         <div class="quad-card" style="border-color:rgba(74,144,164,0.3)"><div class="quad-label" style="color:var(--skill)">Призвание</div><p style="font-weight:600;color:var(--ink)">${r.mission}</p><p style="font-size:0.72rem;margin-top:0.3rem;color:rgba(26,26,46,0.45)">Люблю + Миру</p></div>
         <div class="quad-card" style="border-color:rgba(106,171,122,0.3)"><div class="quad-label" style="color:var(--world)">Миссия</div><p style="font-weight:600;color:var(--ink)">${r.vocation}</p><p style="font-size:0.72rem;margin-top:0.3rem;color:rgba(26,26,46,0.45)">Миру + Платят</p></div>
-        <div class="quad-card" style="border-color:rgba(196,154,60,0.3)"><div class="quad-label" style="color:var(--pay)">Профессия</div><p style="font-weight:600;color:var(--ink)">${r.profession}</p><p style="font-size:0.72rem;margin-top:0.3rem;color:rgba(26,26,46,0.45)">Платят + Хорош</p></div>
+        <div class="quad-card" style="border-color:rgba(196,154,60,0.3)"><div class="quad-label" style="color:var(--pay)">Профессия</div><p style="font-weight:600;color:var(--ink)">${r.profession}</p><p style="font-size:0.72rem;margin-top:0.3rem;color:rgba(26,26,46,0.45)">${G('Платят + {Хорош|Хороша}')}</p></div>
       </div>
     </div>
     <div class="result-block">
@@ -241,7 +303,19 @@ function showResult(r){
       <div class="section-label">Слово наставника</div>
       <div style="font-family:var(--serif);font-style:italic;font-size:0.97rem;line-height:1.8;color:rgba(26,26,46,0.65)">${r.closing}</div>
     </div>
+    <button class="restart-btn support-btn" onclick="openDonate(true)">♥ Поддержать проект</button>
     <button class="restart-btn" onclick="restart()">Пройти заново ↺</button>`;
+  window.scrollTo({top:0,behavior:'smooth'});
+  setTimeout(openDonate, DONATE_DELAY_MS);
+}
+
+function openDonate(manual){
+  if(donateShown && !manual) return;
+  donateShown=true;
+  document.getElementById('donate-modal').classList.add('open');
+}
+function closeDonate(){
+  document.getElementById('donate-modal').classList.remove('open');
 }
 
 function restart(){
