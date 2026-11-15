@@ -89,6 +89,23 @@
   .donate-btn{display:inline-block;background:var(--ink);color:white;text-decoration:none;font-family:var(--sans);font-size:.95rem;font-weight:500;padding:.95rem 2.4rem;border-radius:100px;margin-bottom:.9rem;transition:all .2s;}
   .donate-btn:hover{background:#2d2d4a;transform:translateY(-1px);}
   .donate-skip{display:block;margin:0 auto;background:none;border:none;font-family:var(--sans);font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(26,26,46,.4);cursor:pointer;padding:.5rem;}
+
+  /* ── CTA BLOCKS (Telegram / поддержка / соцсети) ── */
+  .cta-card{border-radius:16px;padding:1.6rem 1.4rem;text-align:center;margin-bottom:1.2rem;}
+  .cta-tg{background:white;border:1.5px solid rgba(74,144,164,0.4);}
+  .cta-support{background:linear-gradient(135deg,rgba(224,92,92,0.12),rgba(155,111,168,0.18));border:2px solid var(--ikigai);box-shadow:0 8px 30px rgba(155,111,168,0.22);}
+  .cta-badge{display:inline-block;font-size:.68rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--ikigai);margin-bottom:.6rem;}
+  .cta-title{font-family:var(--serif);font-size:1.2rem;font-weight:400;line-height:1.45;margin-bottom:.6rem;}
+  .cta-text{font-size:.9rem;line-height:1.65;color:rgba(26,26,46,.72);margin-bottom:1.2rem;}
+  .cta-btn{display:inline-block;text-decoration:none;font-family:var(--sans);font-size:1rem;font-weight:600;padding:1rem 2.4rem;border-radius:100px;color:white;transition:all .2s;}
+  .cta-btn-tg{background:var(--skill);}
+  .cta-btn-tg:hover{background:#3b7889;transform:translateY(-1px);}
+  .cta-btn-support{background:linear-gradient(135deg,var(--love),var(--ikigai));animation:ctaPulse 2.4s ease-in-out infinite;}
+  @keyframes ctaPulse{0%,100%{box-shadow:0 0 0 0 rgba(224,92,92,.45);}50%{box-shadow:0 0 0 12px rgba(224,92,92,0);}}
+  .socials-label{text-align:center;font-size:.7rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:rgba(26,26,46,.45);margin:2rem 0 .9rem;}
+  .socials{display:flex;justify-content:center;gap:.8rem;flex-wrap:wrap;margin-bottom:.5rem;}
+  .social-link{display:inline-flex;align-items:center;gap:.5rem;text-decoration:none;color:var(--ink);background:white;border:1.5px solid var(--line);border-radius:100px;padding:.75rem 1.4rem;font-size:.9rem;font-weight:500;transition:all .2s;}
+  .social-link:hover{border-color:var(--ikigai);transform:translateY(-1px);}
 </style>
 </head>
 <body>
@@ -148,7 +165,9 @@
 <script>
 // ── НАСТРОЙКИ ──
 const DONATE_URL = 'https://app.lava.top/products/a552a352-1c49-4a0b-93d5-6762f378e9df/c799d64f-1615-453a-82be-37a06e05d148?currency=RUB';
-const DONATE_DELAY_MS = 6000; // через сколько мс после результата показать окно доната
+const DONATE_DELAY_MS = 10000; // через сколько мс после результата показать окно доната (10000 = 10 секунд)
+const TELEGRAM_URL = 'https://t.me/Nikkyy88';
+const INSTAGRAM_URL = 'https://www.instagram.com/nikkyy_flow88';
 
 document.getElementById('donate-link').href = DONATE_URL;
 
@@ -303,7 +322,26 @@ function showResult(r){
       <div class="section-label">Слово наставника</div>
       <div style="font-family:var(--serif);font-style:italic;font-size:0.97rem;line-height:1.8;color:rgba(26,26,46,0.65)">${r.closing}</div>
     </div>
-    <button class="restart-btn support-btn" onclick="openDonate(true)">♥ Поддержать проект</button>
+    <div class="cta-card cta-tg">
+      <div class="cta-badge">Личный разбор</div>
+      <div class="cta-title">Хочешь понять детальнее, что делать прямо сейчас?</div>
+      <p class="cta-text">Напиши мне в Telegram. Расскажи, что получилось в результате, и я подскажу, с чего именно начать в твоей ситуации.</p>
+      <a class="cta-btn cta-btn-tg" href="${TELEGRAM_URL}" target="_blank" rel="noopener">Написать в Telegram →</a>
+    </div>
+
+    <div class="cta-card cta-support">
+      <div class="cta-badge">♥ Поддержи проект</div>
+      <div class="cta-title">Приложение бесплатное и сделано с душой</div>
+      <p class="cta-text">Если оно помогло тебе увидеть своё направление, поддержи автора любой суммой. Это помогает развивать проект и делать его лучше.</p>
+      <a class="cta-btn cta-btn-support" href="${DONATE_URL}" target="_blank" rel="noopener">Поддержать автора ♥</a>
+    </div>
+
+    <div class="socials-label">Я в соцсетях</div>
+    <div class="socials">
+      <a class="social-link" href="${INSTAGRAM_URL}" target="_blank" rel="noopener">📸 Instagram</a>
+      <a class="social-link" href="${TELEGRAM_URL}" target="_blank" rel="noopener">✈️ Telegram</a>
+    </div>
+
     <button class="restart-btn" onclick="restart()">Пройти заново ↺</button>`;
   window.scrollTo({top:0,behavior:'smooth'});
   setTimeout(openDonate, DONATE_DELAY_MS);
